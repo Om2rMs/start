@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use http\Env\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -37,4 +38,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function username()
+    {
+
+        $value = request()->input('identify'); // اخذ الفاليو من الانبوت واحطه في قيمه
+        $field = filter_var($value,FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile'; // اسوي فلترة لو كان ايميل
+        Request()->merge([$field=>$value]); // اسوي ميثود ميرج عشان اضيف في الريكوست
+
+        return $field;
+
+    }
 }
+
+
